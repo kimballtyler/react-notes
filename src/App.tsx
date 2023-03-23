@@ -1,17 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import { useState, useEffect } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Route, Routes, Navigate } from 'react-router-dom'
+import Wordle from './components/Wordle';
 
 function App() {
+  const [solution, setSolution] = useState(null);
+
+  useEffect(() => {
+    fetch('http://localhost:5174/solutions')
+      .then(res => res.json())
+      .then(json => {
+        const randomSolution = json[Math.floor(Math.random() * json.length)];
+        setSolution(randomSolution.word);
+      })
+  }, [setSolution])
 
   return (
-    <Routes>
-        <Route path='/' element={<h1>Hi</h1>} />
-        <Route path='/new' element={<h1>New</h1>} />
-        <Route path='/:id' ></Route>
-        <Route path='*' element={<Navigate to="/" />} />
-    </Routes>
+    <div className='App'>
+        <h1>Wordle</h1>
+        {solution && <Wordle solution={solution} />}
+    </div>
   )
 }
 
