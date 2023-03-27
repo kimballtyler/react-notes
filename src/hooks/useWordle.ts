@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-type FormattedGuess = {
+export type FormattedGuess = {
     key: string;
     color: string;
 }
