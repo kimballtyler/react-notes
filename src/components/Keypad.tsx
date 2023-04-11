@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react'
 
-export default function Keypad() {
-    const [letters, setLetters] = useState(null);
+type Letters = [
+    {
+        key: string;
+    }
+]
+
+export default function Keypad({ usedKeys }: any) {
+    const [letters, setLetters] = useState<Letters|null>(null);
 
     useEffect(() => {
         fetch('http://localhost:5174/letters')
@@ -12,6 +18,13 @@ export default function Keypad() {
     }, [])
 
   return (
-    <div className='keypad'></div>
+    <div className='keypad'>
+        {letters && letters.map(letter => {
+            const color = usedKeys[letter.key]
+         return (
+            <div key={letter.key} className={color}>{letter.key}</div>
+         )   
+        })}
+    </div>
   )
 }
